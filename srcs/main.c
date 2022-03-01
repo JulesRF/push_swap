@@ -6,7 +6,7 @@
 /*   By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 15:10:52 by jroux-fo          #+#    #+#             */
-/*   Updated: 2022/03/01 13:15:16 by jroux-fo         ###   ########.fr       */
+/*   Updated: 2022/03/01 16:42:28 by jroux-fo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	ft_atoi(const char *nptr)
 	return (res);
 }
 
-t_list	*ft_lstnew(int value, int index)
+t_list	*ft_lstnew(int value)
 {
 	t_list	*newcell;
 
@@ -122,7 +122,6 @@ t_list	*ft_lstnew(int value, int index)
 	if (!newcell)
 		return (NULL);
 	newcell->value = value;
-	newcell->index = index;
 	newcell->next = NULL;
 	return (newcell);
 }
@@ -156,22 +155,21 @@ void	ft_init_list(t_list *list, int argc, char **argv)
 	i = 2;
 	while (i < argc)
 	{
-		ft_lstadd_back(&list, ft_lstnew(ft_atoi(argv[i]), i - 1));
+		ft_lstadd_back(&list, ft_lstnew(ft_atoi(argv[i])));
 		i++;
 	}
 }
 
-void	ft_print(int value, int index)
+void	ft_print(int value)
 {
-	printf("Index : %d ", index);
 	printf("Value : %d\n", value);
 }
 
-void	ft_lstiter(t_list *list, void (*f)(int, int))
+void	ft_lstiter(t_list *list, void (*f)(int))
 {
 	while (list)
 	{
-		(*f)(list->value, list->index);
+		(*f)(list->value);
 		list = list->next;
 	}
 }
@@ -201,9 +199,6 @@ void	ft_sswap(t_list *list_a, t_list *list_b)
 
 void	ft_push(t_list *send, t_list *receive)
 {
-	int	i;
-
-	i = 0;
 	if (send == NULL)
 	{
 		printf("Error\n");
@@ -213,30 +208,45 @@ void	ft_push(t_list *send, t_list *receive)
 		send = send->next;
 	ft_lstadd_back(&receive, send->next);
 	send->next = NULL;
-	while (receive)
-	{
-		receive->index = i;
-		receive = receive->next;
-		i++;
-	}
 }
 
-void	ft_rotate(t_list *list)
+void	ft_rotate(t_list **list)
 {
-	// int	temp;
-	// int	last;
-	t_list	*l_list;
+	t_list	*temp;
+	t_list	*last;
 
-	// printf("%d\n", temp);
-	l_list = ft_lstlast(list);
-	l_list->next = list;
-	// list->value = temp;
+	temp = *list;
+	while (temp->next->next)
+		temp = temp->next;
+	last = temp->next;
+	temp->next = NULL;
+	last->next = *list;
+	(*list) = last;
 }
 
-void	ft_rrotate(t_list *list_a, t_list *list_b)
+void	ft_rrotate(t_list **list_a, t_list **list_b)
 {
 	ft_rotate(list_a);
 	ft_rotate(list_b);
+}
+
+void	ft_reverse_rotate(t_list *list)
+{
+	int	temp;
+
+	temp = list->value;
+	while (list->next)
+	{
+		list->value = list->next->value;
+		list = list->next;
+	}
+	list->value = temp;
+}
+
+void	ft_rreverse_rotate(t_list *list_a, t_list *list_b)
+{
+	ft_reverse_rotate(list_a);
+	ft_reverse_rotate(list_b);
 }
 
 int	main(int argc, char **argv)
@@ -245,9 +255,9 @@ int	main(int argc, char **argv)
 	t_list	*bottom_b;
 	
 	ft_error(argc, argv);
-	bottom_a = ft_lstnew(ft_atoi(argv[1]), 0);
+	bottom_a = ft_lstnew(ft_atoi(argv[1]));
 	bottom_a->next = NULL;
-	bottom_b = ft_lstnew(ft_atoi(argv[1]), 0);
+	bottom_b = ft_lstnew(ft_atoi(argv[1]));
 	bottom_b->next = NULL;
 	
 	ft_init_list(bottom_a, argc, argv);
@@ -257,7 +267,7 @@ int	main(int argc, char **argv)
 	printf("/////////////////////////\n");
 	printf("STACK B\n");
 	ft_lstiter(bottom_b, ft_print);
-	ft_rrotate(bottom_a, bottom_b);
+	ft_rreverse_rotate(bottom_a, bottom_b);
 	printf("/////////////////////////\n");
 	printf("/////////////////////////\n");
 	printf("/////////////////////////\n");

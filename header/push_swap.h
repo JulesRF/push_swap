@@ -6,7 +6,7 @@
 /*   By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 14:42:32 by jroux-fo          #+#    #+#             */
-/*   Updated: 2022/02/16 14:21:13 by jroux-fo         ###   ########.fr       */
+/*   Updated: 2022/03/01 16:21:22 by jroux-fo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 typedef struct s_list
 {
 	int	value;
-	int	index;
 	struct s_list	*next;
 }					t_list;
 
