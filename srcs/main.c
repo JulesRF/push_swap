@@ -6,7 +6,7 @@
 /*   By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 15:10:52 by jroux-fo          #+#    #+#             */
-/*   Updated: 2022/03/01 16:42:28 by jroux-fo         ###   ########.fr       */
+/*   Updated: 2022/03/02 14:44:50 by jroux-fo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,16 @@ void	ft_isdigit(char *str)
 		}
 		i++;
 	}
+}
+
+int	ft_strlen(const char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }
 
 void	ft_error(int argc, char **argv)
@@ -191,12 +201,6 @@ void	ft_swap(t_list *list)
 	list->next->value = temp;
 }
 
-void	ft_sswap(t_list *list_a, t_list *list_b)
-{
-	ft_swap(list_a);
-	ft_swap(list_b);
-}
-
 void	ft_push(t_list *send, t_list *receive)
 {
 	if (send == NULL)
@@ -215,6 +219,8 @@ void	ft_rotate(t_list **list)
 	t_list	*temp;
 	t_list	*last;
 
+	if (*list == NULL || (*list)->next == NULL)
+		return ;
 	temp = *list;
 	while (temp->next->next)
 		temp = temp->next;
@@ -224,16 +230,12 @@ void	ft_rotate(t_list **list)
 	(*list) = last;
 }
 
-void	ft_rrotate(t_list **list_a, t_list **list_b)
-{
-	ft_rotate(list_a);
-	ft_rotate(list_b);
-}
-
 void	ft_reverse_rotate(t_list *list)
 {
 	int	temp;
 
+	if (list == NULL || list->next == NULL)
+		return ;
 	temp = list->value;
 	while (list->next)
 	{
@@ -243,11 +245,36 @@ void	ft_reverse_rotate(t_list *list)
 	list->value = temp;
 }
 
+void	ft_sswap(t_list *list_a, t_list *list_b)
+{
+	ft_swap(list_a);
+	ft_swap(list_b);
+}
+
+void	ft_rrotate(t_list **list_a, t_list **list_b)
+{
+	ft_rotate(list_a);
+	ft_rotate(list_b);
+}
+
 void	ft_rreverse_rotate(t_list *list_a, t_list *list_b)
 {
 	ft_reverse_rotate(list_a);
 	ft_reverse_rotate(list_b);
 }
+
+//////////////////////////////////////////////////////////////
+///////////////////////ON TRIE LA/////////////////////////////
+//////////////////////////////////////////////////////////////
+
+void	ft_sort(t_list *list_a, t_list *list_b)
+{
+	t_list	*
+}
+
+//////////////////////////////////////////////////////////////
+///////////////////////ON TRIE LA/////////////////////////////
+//////////////////////////////////////////////////////////////
 
 int	main(int argc, char **argv)
 {
