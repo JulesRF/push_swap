@@ -6,7 +6,7 @@
 /*   By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 15:10:52 by jroux-fo          #+#    #+#             */
-/*   Updated: 2022/03/03 18:30:30 by jroux-fo         ###   ########.fr       */
+/*   Updated: 2022/03/05 19:17:43 by jroux-fo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,7 @@ void	ft_is_sorted(t_list *list)
 	}
 	if (list->next->next == NULL)
 	{
-		if (list->value >= list->next->value)
+		if (list->value <= list->next->value)
 		{
 			printf("gg tout est trié\n");
 			exit(0);
@@ -216,11 +216,11 @@ void	ft_is_sorted(t_list *list)
 	}
 	while (list->next->next)
 	{
-		if (list->next->value > list->value)
+		if (list->next->value < list->value)
 			return ;
 		list = list->next;
 	}
-	if (list->next->value > list->value)
+	if (list->next->value < list->value)
 		return ;
 	printf("gg tout est trié\n");
 	exit(0);
@@ -230,11 +230,11 @@ int	ft_is_sorted2(t_list *list)
 {
 	while (list->next->next)
 	{
-		if (list->next->value > list->value)
+		if (list->next->value < list->value)
 			return (1);
 		list = list->next;
 	}
-	if (list->next->value > list->value)
+	if (list->next->value < list->value)
 		return (1);
 	return (0);
 }
@@ -243,7 +243,7 @@ void	ft_init_list(t_list **list, int argc, char **argv)
 {
 	char	**dest;
 	int		i;
-	
+
 	i = 1;
 	if (argc == 1)
 	{
@@ -258,16 +258,17 @@ void	ft_init_list(t_list **list, int argc, char **argv)
 		free (dest);
 		return ;
 	}
-	while (argc > 1)
+	i++;
+	while (argv[i])
 	{
-		ft_lstadd_front(list, ft_lstnew(ft_atoi(argv[argc - 1])));
-		argc--;
+		ft_lstadd_back(list, ft_lstnew(ft_atoi(argv[i])));
+		i++;
 	}
 }
 
 void	ft_print(int value)
 {
-	printf("Value : %d\n", value);
+	printf("%d ", value);
 }
 
 void	ft_lstiter(t_list *list, void (*f)(int))
@@ -296,24 +297,43 @@ void	ft_swap(t_list *list)
 	list->next->value = temp;
 }
 
-void	ft_push(t_list *send, t_list *receive)
+void	ft_push(t_list **send, t_list **receive)
 {
-	if (send == NULL)
+	if (*send == NULL)
 	{
 		printf("Error\n");
 		return ;
 	}
-	if (receive == NULL)
+	if (*receive == NULL)
 	{
-		receive = ft_lstnew(send->value);
-		receive->next = NULL;
+		*receive = ft_lstnew((*send)->value);
+		// receive->next = NULL;
 		return ;
 	}
-	while (send->next->next)
-		send = send->next;
-	ft_lstadd_back(&receive, send->next);
-	send->next = NULL;
+	// while (send->next->next)
+	// 	send = send->next;
+	ft_lstadd_front(receive, *send);
+	*send = (*send)->next;
 }
+
+// void	ft_push(t_list *send, t_list *receive)
+// {
+// 	if (send == NULL)
+// 	{
+// 		printf("Error\n");
+// 		return ;
+// 	}
+// 	if (receive == NULL)
+// 	{
+// 		receive = ft_lstnew(send->value);
+// 		receive->next = NULL;
+// 		return ;
+// 	}
+// 	while (send->next->next)
+// 		send = send->next;
+// 	ft_lstadd_back(&receive, send->next);
+// 	send->next = NULL;
+// }
 
 void	ft_reverse_rotate(t_list **list)
 {
@@ -364,6 +384,21 @@ void	ft_rreverse_rotate(t_list **list_a, t_list **list_b)
 	ft_reverse_rotate(list_b);
 }
 
+// void	ft_replace(t_list **list_a)
+// {
+// 	t_list	*temp_a;
+// 	int		*tab;
+// 	int		i;
+// 	int		size;
+
+// 	temp_a = *list_a;
+// 	size = ft_lstsize(temp_a)
+// 	while (i < size)
+// 	{
+		
+// 	}
+// }
+
 //////////////////////////////////////////////////////////////
 ///////////////////////ON TRIE LA/////////////////////////////
 //////////////////////////////////////////////////////////////
@@ -374,17 +409,36 @@ void	ft_sort_3(t_list *list_a, t_list *list_b)
 	
 	while (ft_is_sorted2(list_a) != 0)
 	{
-		if (list_a->value < list_a->next->value)
+		if (list_a->value > list_a->next->value)
 			ft_rotate(list_a);
-		if (list_a->next->value < list_a->next->next->value)
+		if (list_a->next->value > list_a->next->next->value)
 			ft_swap(list_a);
 	}
 }
 
-// void	ft_small_sort(t_list **list_a, t_list **list_b)
+// void	ft_big_sort(t_list *list_a, t_list *list_b)
 // {
-// 	if (ft_lstsize(list_a) == 3)
-// 		ft_sort_3(list_a, list_b);
+// 	int		i;
+// 	int		j;
+// 	int		size;
+
+// 	size = ft_lstsize(list_a);
+// 	i = 0;
+// 	j = 0;
+// 	while (ft_is_sorted2(list_a) != 0)
+// 	{
+// 		while (j < size)
+// 		{
+// 			if (list_a->value >> i) & 1)
+// 				ft_rotate(list_a);
+// 			else
+// 				ft_push(list_a, list_b);
+// 			j++;
+// 		}
+// 		while (list_b == NULL)
+// 			ft_push(list_b, list_a);
+// 		i++;
+// 	}
 // }
 
 // void	ft_sort(t_list **list_a, t_list **list_b)
@@ -394,12 +448,12 @@ void	ft_sort_3(t_list *list_a, t_list *list_b)
 
 // 	temp_a = *list_a;
 // 	temp_b = *list_b;
-// 	// while (temp_a)
-// 	// {
-// 	// 	temp_a->value = temp_a->value + 1;
-// 	// 	temp_a = temp_a->next;
-// 	// }
-// 	ft_push(temp_a, temp_b);
+// 	if (ft_lstsize(temp_a) == 3)
+// 		ft_sort_3(temp_a, temp_b);
+// 	else if (ft_lstsize(temp_a) <= 5)
+// 		printf("tri de 5\n");
+// 	else
+// 		printf("big_sort\n");
 // }
 
 //////////////////////////////////////////////////////////////
@@ -412,25 +466,42 @@ int	main(int argc, char **argv)
 	t_list	*list_b;
 	
 	ft_error(argc, argv);
-	list_a = ft_lstnew(ft_atoi(argv[argc - 1]));
+	list_a = ft_lstnew(ft_atoi(argv[1]));
 	list_a->next = NULL;
-	list_b = NULL;
+	list_b = ft_lstnew(ft_atoi(argv[1])); ///////
+	list_b->next = NULL;				  ///////
+	// list_b = NULL;
 	
 	ft_init_list(&list_a, argc - 1, argv);
 	ft_is_sorted(list_a);
-	// ft_init_list(&list_b, argc, argv);
+	ft_init_list(&list_b, argc - 1, argv);
 	printf("STACK A\n");
 	ft_lstiter(list_a, ft_print);
+	printf("\n");
 	printf("/////////////////////////\n");
 	printf("STACK B\n");
 	ft_lstiter(list_b, ft_print);
-	ft_sort_3(list_a, list_b);
+	printf("\n");
+	ft_push(&list_a, &list_b);
 	printf("/////////////////////////\n");
 	printf("/////////////////////////\n");
 	printf("/////////////////////////\n");
 	printf("STACK A\n");
 	ft_lstiter(list_a, ft_print);
+	printf("\n");
 	printf("/////////////////////////\n");
 	printf("STACK B\n");
 	ft_lstiter(list_b, ft_print);
+	printf("\n");
+	// ft_push(&list_a, &list_b);
+	// printf("/////////////////////////\n");
+	// printf("/////////////////////////\n");
+	// printf("/////////////////////////\n");
+	// printf("STACK A\n");
+	// ft_lstiter(list_a, ft_print);
+	// printf("\n");
+	// printf("/////////////////////////\n");
+	// printf("STACK B\n");
+	// ft_lstiter(list_b, ft_print);
+	// printf("\n");
 }
