@@ -6,7 +6,7 @@
 #    By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/15 14:49:20 by jroux-fo          #+#    #+#              #
-#    Updated: 2022/03/03 16:04:20 by jroux-fo         ###   ########.fr        #
+#    Updated: 2022/03/08 14:30:32 by jroux-fo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRCS_FILES	=	main.c		\
 
 FT_PRINTF	=	ft_printf/libftprintf.a
 
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra -fsanitize=address -g3
 
 INCLUDES = header
 

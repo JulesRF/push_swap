@@ -6,7 +6,7 @@
 /*   By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 15:10:52 by jroux-fo          #+#    #+#             */
-/*   Updated: 2022/03/05 19:17:43 by jroux-fo         ###   ########.fr       */
+/*   Updated: 2022/03/08 17:19:45 by jroux-fo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -299,21 +299,25 @@ void	ft_swap(t_list *list)
 
 void	ft_push(t_list **send, t_list **receive)
 {
-	if (*send == NULL)
+	t_list	*temp;
+	
+	temp = *send;
+	if (temp == NULL)
 	{
 		printf("Error\n");
 		return ;
 	}
 	if (*receive == NULL)
 	{
-		*receive = ft_lstnew((*send)->value);
+		*receive = ft_lstnew(temp->value);
 		// receive->next = NULL;
 		return ;
 	}
 	// while (send->next->next)
 	// 	send = send->next;
-	ft_lstadd_front(receive, *send);
-	*send = (*send)->next;
+	ft_lstadd_front(receive, temp);
+	*send = (*send)->next->next;
+	//	*send = (*send)->next;
 }
 
 // void	ft_push(t_list *send, t_list *receive)
@@ -384,20 +388,64 @@ void	ft_rreverse_rotate(t_list **list_a, t_list **list_b)
 	ft_reverse_rotate(list_b);
 }
 
-// void	ft_replace(t_list **list_a)
-// {
-// 	t_list	*temp_a;
-// 	int		*tab;
-// 	int		i;
-// 	int		size;
+int	ft_duplicate(int *tab, int nb, int size)
+{
+	int i;
 
-// 	temp_a = *list_a;
-// 	size = ft_lstsize(temp_a)
-// 	while (i < size)
-// 	{
-		
-// 	}
-// }
+	i = 0;
+	if (tab == NULL)
+		return (0);
+	while (i < size)
+	{
+		if (tab[i] == nb)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	ft_mini(t_list **list, int *tab, int size)
+{
+	t_list	*temp;
+	int		nb;
+
+	temp = *list;
+	nb = temp->value;
+	while (temp)
+	{
+		if (temp->value == nb && ft_duplicate(tab, temp->value, size) == 1)
+			nb = temp->next->value;
+		if (temp->value < nb && ft_duplicate(tab, temp->value, size) == 0)
+			nb = temp->value;
+		temp = temp->next;
+	}
+	return (nb);
+}
+
+void	ft_replace(t_list **list_a)
+{
+	t_list	*temp_a;
+	int		*tab;
+	int		i;
+	int		size;
+	int		mini;
+
+	i = 1;
+	temp_a = *list_a;
+	size = ft_lstsize(temp_a);
+	printf("size = %d\n", size);
+	tab = malloc(sizeof(int) * size);
+	mini = ft_mini(&temp_a, tab, size);
+	tab[0] = mini;
+	printf("tab[0] = %d\n", tab[0]);
+	while (i < size)
+	{
+		mini = ft_mini(&temp_a, tab, size);
+		tab[i] = mini;
+		printf("tab[%d] = %d\n", i, tab[i]);
+		i++;
+	}
+}
 
 //////////////////////////////////////////////////////////////
 ///////////////////////ON TRIE LA/////////////////////////////
@@ -416,30 +464,38 @@ void	ft_sort_3(t_list *list_a, t_list *list_b)
 	}
 }
 
-// void	ft_big_sort(t_list *list_a, t_list *list_b)
-// {
-// 	int		i;
-// 	int		j;
-// 	int		size;
+void	ft_big_sort(t_list **list_a, t_list **list_b)
+{
+	int		i;
+	int		j;
+	int		size;
+	int		nb;
 
-// 	size = ft_lstsize(list_a);
-// 	i = 0;
-// 	j = 0;
-// 	while (ft_is_sorted2(list_a) != 0)
-// 	{
-// 		while (j < size)
-// 		{
-// 			if (list_a->value >> i) & 1)
-// 				ft_rotate(list_a);
-// 			else
-// 				ft_push(list_a, list_b);
-// 			j++;
-// 		}
-// 		while (list_b == NULL)
-// 			ft_push(list_b, list_a);
-// 		i++;
-// 	}
-// }
+	size = ft_lstsize(*list_a);
+	i = 0;
+	j = 0;
+	while (ft_is_sorted2(*list_a) != 0)
+	{
+		j = 0;
+		while (j < size)
+		{
+			printf("salut\n");
+			nb = (*list_a)->value;
+			if ((nb >> i) & 1)
+				ft_rotate(*list_a);
+			else
+				ft_push(list_a, list_b);
+			j++;
+		}
+		while (list_b == NULL)
+		{
+			printf("salut\n");
+			ft_push(list_b, list_a);
+		}
+		printf("salut\n");
+		i++;
+	}
+}
 
 // void	ft_sort(t_list **list_a, t_list **list_b)
 // {
@@ -467,14 +523,12 @@ int	main(int argc, char **argv)
 	
 	ft_error(argc, argv);
 	list_a = ft_lstnew(ft_atoi(argv[1]));
-	list_a->next = NULL;
-	list_b = ft_lstnew(ft_atoi(argv[1])); ///////
-	list_b->next = NULL;				  ///////
-	// list_b = NULL;
+	// list_b = ft_lstnew(ft_atoi(argv[1])); 
+	list_b = NULL;
 	
 	ft_init_list(&list_a, argc - 1, argv);
 	ft_is_sorted(list_a);
-	ft_init_list(&list_b, argc - 1, argv);
+	// ft_init_list(&list_b, argc - 1, argv);
 	printf("STACK A\n");
 	ft_lstiter(list_a, ft_print);
 	printf("\n");
@@ -482,18 +536,28 @@ int	main(int argc, char **argv)
 	printf("STACK B\n");
 	ft_lstiter(list_b, ft_print);
 	printf("\n");
-	ft_push(&list_a, &list_b);
-	printf("/////////////////////////\n");
-	printf("/////////////////////////\n");
-	printf("/////////////////////////\n");
-	printf("STACK A\n");
-	ft_lstiter(list_a, ft_print);
-	printf("\n");
-	printf("/////////////////////////\n");
-	printf("STACK B\n");
-	ft_lstiter(list_b, ft_print);
-	printf("\n");
+	
+
+	// ft_big_sort(&list_a, &list_b);
+	// printf("finis\n");
+	ft_replace(&list_a);
 	// ft_push(&list_a, &list_b);
+	// ft_rotate(list_a);
+
+
+	
+	// printf("\n\n\n\n\n");
+
+
+	
+	printf("STACK A\n");
+	ft_lstiter(list_a, ft_print);
+	printf("\n");
+	printf("/////////////////////////\n");
+	printf("STACK B\n");
+	ft_lstiter(list_b, ft_print);
+	printf("\n");
+	// ft_rotate(list_a);
 	// printf("/////////////////////////\n");
 	// printf("/////////////////////////\n");
 	// printf("/////////////////////////\n");
