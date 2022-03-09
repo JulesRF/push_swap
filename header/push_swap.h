@@ -6,7 +6,7 @@
 /*   By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 14:42:32 by jroux-fo          #+#    #+#             */
-/*   Updated: 2022/03/03 16:13:32 by jroux-fo         ###   ########.fr       */
+/*   Updated: 2022/03/09 16:06:23 by jroux-fo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,8 @@ typedef struct s_list
 
 //	ft_split.c
 char	**ft_split(char const *s, char c);
+
+//	ft_atoi.c
+int	ft_atoi(const char *nptr);
 
 #endif

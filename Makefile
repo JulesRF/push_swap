@@ -6,7 +6,7 @@
 #    By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/15 14:49:20 by jroux-fo          #+#    #+#              #
-#    Updated: 2022/03/08 14:30:32 by jroux-fo         ###   ########.fr        #
+#    Updated: 2022/03/09 16:05:44 by jroux-fo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ PRINTF = libftprintf.a
 PRINTF_PATH = ft_printf
 
 SRCS_FILES	=	main.c		\
+				ft_atoi.c	\
 				ft_split.c 	\
 
 FT_PRINTF	=	ft_printf/libftprintf.a

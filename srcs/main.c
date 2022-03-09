@@ -6,7 +6,7 @@
 /*   By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 15:10:52 by jroux-fo          #+#    #+#             */
-/*   Updated: 2022/03/08 17:19:45 by jroux-fo         ###   ########.fr       */
+/*   Updated: 2022/03/09 16:28:16 by jroux-fo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,68 @@ int	ft_strlen(const char *s)
 	return (i);
 }
 
+void	ft_free_split(char	**dest)
+{
+	int	i;
+	
+	i = 0;
+	while (dest[i])
+	{
+		free(dest[i]);
+		i++;
+	}
+	free(dest[i]);
+	free(dest);
+}
+
+void	ft_same_digit2(int argc, char **argv)
+{
+	char	**dest;
+	int		i;
+	int		j;
+
+	(void)argc;
+	dest = ft_split(argv[1], ' ');
+	i = 0;
+	while (dest[i] != 0)
+	{
+		j = 0;
+		while (dest[j] != 0)
+		{
+			if (ft_atoi(dest[i]) == ft_atoi(dest[j]) && i != j)
+			{
+				printf("Errorsalut\n");
+				exit(1);
+			}
+			j++;
+		}
+		i++;
+	}
+	ft_free_split(dest);
+}
+
+void	ft_same_digit1(int argc, char **argv)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	while (i < argc)
+	{
+		j = 1;
+		while (j < argc)
+		{
+			if (ft_atoi(argv[i]) == ft_atoi(argv[j]) && i != j)
+			{
+				printf("Errorsalut\n");
+				exit(1);
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
 void	ft_error(int argc, char **argv)
 {
 	int	i;
@@ -79,70 +141,10 @@ void	ft_error(int argc, char **argv)
 			ft_isdigit(argv[i]);
 		i++;
 	}
-}
-
-int	ft_whitespaces(const char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] == ' ' || (str[i] <= 13 && str[i] >= 9))
-		i++;
-	return (i);
-}
-
-int	ft_strcmp(const char *s1, char *s2)
-{
-	int	i;
-
-	i = 0;
-	while (s1[i] || s2[i])
-	{
-		if (s1[i] - s2[i] != 0)
-			return (s1[i] - s2[i]);
-		i++;
-	}
-	return (0);
-}
-
-int	ft_check(const char *nptr)
-{
-	if (ft_strcmp(nptr, "2147483647") > 0
-		&& ft_strlen (nptr) >= ft_strlen("2147483647"))
-		return (-1);
-	else if (ft_strcmp(nptr, "-2147483648") > 0
-		&& ft_strlen (nptr) >= ft_strlen("-2147483648"))
-		return (0);
-	return (2);
-}
-
-int	ft_atoi(const char *nptr)
-{
-	int	res;
-	int	i;
-	int	moins;
-
-	if (ft_strcmp(nptr, "2147483647") == 0)
-		return (2147483647);
-	if (ft_check(nptr) != 2)
-		return (ft_check(nptr));
-	res = 0;
-	i = ft_whitespaces(nptr);
-	moins = 0;
-	if (nptr[i] == '-' || nptr[i] == '+')
-	{
-		if (nptr[i] == '-')
-			moins = 1;
-		i++;
-	}
-	while (nptr[i] <= '9' && nptr[i] >= '0')
-	{
-		res = res * 10 + nptr[i] - 48;
-		i++;
-	}
-	if (moins == 1)
-		return (-res);
-	return (res);
+	if (argc == 2)
+		ft_same_digit2(argc, argv);
+	else
+		ft_same_digit1(argc, argv);
 }
 
 int	ft_lstsize(t_list *lst)
@@ -307,16 +309,13 @@ void	ft_push(t_list **send, t_list **receive)
 		printf("Error\n");
 		return ;
 	}
-	if (*receive == NULL)
-	{
-		*receive = ft_lstnew(temp->value);
-		// receive->next = NULL;
-		return ;
-	}
 	// while (send->next->next)
 	// 	send = send->next;
-	ft_lstadd_front(receive, temp);
-	*send = (*send)->next->next;
+	*send = (*send)->next;
+	temp->next = *(receive);
+	*(receive) = temp;
+	
+	// ft_lstadd_front(receive, temp);
 	//	*send = (*send)->next;
 }
 
@@ -422,29 +421,61 @@ int	ft_mini(t_list **list, int *tab, int size)
 	return (nb);
 }
 
+void	ft_replace2(t_list **list, int *src, int size)
+{
+	int		i;
+	int		j;
+	t_list	*temp;
+	int		*dest;
+
+	temp = *list;
+	dest = malloc(sizeof(int) * size);
+	i = 0;
+	j = 0;
+	while (i < size)
+	{	
+		j = 0;
+		while (j < size)
+		{
+			if (temp->value == src[j])
+				dest[i] = j;
+			j++;
+		}
+		printf("%d, ", dest[i]);
+		i++;
+		temp = temp->next;
+	}
+	i = 0;
+	temp = *list;
+	while (i < size)
+	{
+		temp->value = dest[i];
+		i++;
+		temp = temp->next;
+	}
+	free(src);
+}
+
 void	ft_replace(t_list **list_a)
 {
 	t_list	*temp_a;
 	int		*tab;
 	int		i;
 	int		size;
-	int		mini;
 
 	i = 1;
 	temp_a = *list_a;
 	size = ft_lstsize(temp_a);
-	printf("size = %d\n", size);
 	tab = malloc(sizeof(int) * size);
-	mini = ft_mini(&temp_a, tab, size);
-	tab[0] = mini;
+	tab[0] = ft_mini(&temp_a, tab, size);
 	printf("tab[0] = %d\n", tab[0]);
 	while (i < size)
 	{
-		mini = ft_mini(&temp_a, tab, size);
-		tab[i] = mini;
+		tab[i] = ft_mini(&temp_a, tab, size);
 		printf("tab[%d] = %d\n", i, tab[i]);
 		i++;
 	}
+	ft_replace2(list_a, tab, size);
 }
 
 //////////////////////////////////////////////////////////////
@@ -557,7 +588,7 @@ int	main(int argc, char **argv)
 	printf("STACK B\n");
 	ft_lstiter(list_b, ft_print);
 	printf("\n");
-	// ft_rotate(list_a);
+	// ft_push(&list_a, &list_b);
 	// printf("/////////////////////////\n");
 	// printf("/////////////////////////\n");
 	// printf("/////////////////////////\n");
