@@ -6,7 +6,7 @@
 /*   By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 15:10:52 by jroux-fo          #+#    #+#             */
-/*   Updated: 2022/03/09 16:28:16 by jroux-fo         ###   ########.fr       */
+/*   Updated: 2022/03/11 16:59:07 by jroux-fo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	ft_strlen(const char *s)
 void	ft_free_split(char	**dest)
 {
 	int	i;
-	
+
 	i = 0;
 	while (dest[i])
 	{
@@ -73,6 +73,25 @@ void	ft_free_split(char	**dest)
 	}
 	free(dest[i]);
 	free(dest);
+}
+
+void	ft_exit(t_list *list_a, t_list *list_b, int end)
+{
+	while (list_a)
+	{
+		free(list_a);
+		printf("on free\n");
+		list_a = list_a->next;
+	}
+	free(list_a);
+	while (list_b)
+	{
+		free(list_b);
+		printf("on free\n");
+		list_b = list_b->next;
+	}
+	free(list_b);
+	exit(end);
 }
 
 void	ft_same_digit2(int argc, char **argv)
@@ -87,6 +106,11 @@ void	ft_same_digit2(int argc, char **argv)
 	while (dest[i] != 0)
 	{
 		j = 0;
+		if (ft_atoi(dest[i]) > 2147483647)
+		{
+			ft_free_split(dest);
+			exit(1);
+		}
 		while (dest[j] != 0)
 		{
 			if (ft_atoi(dest[i]) == ft_atoi(dest[j]) && i != j)
@@ -126,7 +150,7 @@ void	ft_same_digit1(int argc, char **argv)
 void	ft_error(int argc, char **argv)
 {
 	int	i;
-	
+
 	i = 1;
 	if (argc == 1)
 	{
@@ -138,7 +162,11 @@ void	ft_error(int argc, char **argv)
 		if (argc == 2)
 			ft_isdigitandspace(argv[i]);
 		else
+		{
 			ft_isdigit(argv[i]);
+			if (ft_atoi(argv[i]) > 2147483647)
+				exit(1);
+		}
 		i++;
 	}
 	if (argc == 2)
@@ -164,6 +192,7 @@ t_list	*ft_lstnew(int value)
 {
 	t_list	*newcell;
 
+	printf("nouvelle cellule\n");
 	newcell = malloc(sizeof(t_list));
 	if (!newcell)
 		return (NULL);
@@ -293,7 +322,6 @@ void	ft_swap(t_list *list)
 	}
 	while (list->next->next)
 		list = list->next;
-	// printf("%d\n", list->index);
 	temp = list->value;
 	list->value = list->next->value;
 	list->next->value = temp;
@@ -302,21 +330,16 @@ void	ft_swap(t_list *list)
 void	ft_push(t_list **send, t_list **receive)
 {
 	t_list	*temp;
-	
+
 	temp = *send;
 	if (temp == NULL)
 	{
 		printf("Error\n");
 		return ;
 	}
-	// while (send->next->next)
-	// 	send = send->next;
 	*send = (*send)->next;
 	temp->next = *(receive);
 	*(receive) = temp;
-	
-	// ft_lstadd_front(receive, temp);
-	//	*send = (*send)->next;
 }
 
 // void	ft_push(t_list *send, t_list *receive)
@@ -357,16 +380,20 @@ void	ft_reverse_rotate(t_list **list)
 void	ft_rotate(t_list *list)
 {
 	int	temp;
+	int	indextemp;
 
 	if (list == NULL || list->next == NULL)
 		return ;
 	temp = list->value;
+	indextemp = list->index;
 	while (list->next)
 	{
 		list->value = list->next->value;
+		list->index = list->next->index;
 		list = list->next;
 	}
 	list->value = temp;
+	list->index = indextemp;
 }
 
 void	ft_sswap(t_list *list_a, t_list *list_b)
@@ -389,7 +416,7 @@ void	ft_rreverse_rotate(t_list **list_a, t_list **list_b)
 
 int	ft_duplicate(int *tab, int nb, int size)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (tab == NULL)
@@ -421,6 +448,23 @@ int	ft_mini(t_list **list, int *tab, int size)
 	return (nb);
 }
 
+void	ft_replace3(t_list **list, int *src, int *dest, int size)
+{
+	int		i;
+	t_list	*temp;
+
+	i = 0;	
+	temp = *list;
+	while (i < size)
+	{
+		temp->index = dest[i];
+		i++;
+		temp = temp->next;
+	}
+	free(dest);
+	free(src);
+}
+
 void	ft_replace2(t_list **list, int *src, int size)
 {
 	int		i;
@@ -433,7 +477,7 @@ void	ft_replace2(t_list **list, int *src, int size)
 	i = 0;
 	j = 0;
 	while (i < size)
-	{	
+	{
 		j = 0;
 		while (j < size)
 		{
@@ -445,15 +489,20 @@ void	ft_replace2(t_list **list, int *src, int size)
 		i++;
 		temp = temp->next;
 	}
+	ft_replace3(list, src, dest, size);
+}
+
+int	*ft_init_tab(int *tab, int size)
+{
+	int	i;
+
 	i = 0;
-	temp = *list;
 	while (i < size)
 	{
-		temp->value = dest[i];
+		tab[i] = 2147483648;
 		i++;
-		temp = temp->next;
 	}
-	free(src);
+	return (tab);
 }
 
 void	ft_replace(t_list **list_a)
@@ -466,7 +515,8 @@ void	ft_replace(t_list **list_a)
 	i = 1;
 	temp_a = *list_a;
 	size = ft_lstsize(temp_a);
-	tab = malloc(sizeof(int) * size);
+	tab = malloc(sizeof(long int) * size);
+	tab = ft_init_tab(tab, size);
 	tab[0] = ft_mini(&temp_a, tab, size);
 	printf("tab[0] = %d\n", tab[0]);
 	while (i < size)
@@ -485,7 +535,6 @@ void	ft_replace(t_list **list_a)
 void	ft_sort_3(t_list *list_a, t_list *list_b)
 {
 	(void)list_b;
-	
 	while (ft_is_sorted2(list_a) != 0)
 	{
 		if (list_a->value > list_a->next->value)
@@ -510,38 +559,24 @@ void	ft_big_sort(t_list **list_a, t_list **list_b)
 		j = 0;
 		while (j < size)
 		{
-			printf("salut\n");
-			nb = (*list_a)->value;
+			nb = (*list_a)->index;
 			if ((nb >> i) & 1)
 				ft_rotate(*list_a);
 			else
 				ft_push(list_a, list_b);
 			j++;
 		}
-		while (list_b == NULL)
+		nb = size - ft_lstsize(*list_a);
+		j = 0;
+		while (j < nb)
 		{
-			printf("salut\n");
 			ft_push(list_b, list_a);
+			j++;
 		}
-		printf("salut\n");
 		i++;
+		*list_b = NULL;
 	}
 }
-
-// void	ft_sort(t_list **list_a, t_list **list_b)
-// {
-// 	t_list	*temp_a;
-// 	t_list	*temp_b;
-
-// 	temp_a = *list_a;
-// 	temp_b = *list_b;
-// 	if (ft_lstsize(temp_a) == 3)
-// 		ft_sort_3(temp_a, temp_b);
-// 	else if (ft_lstsize(temp_a) <= 5)
-// 		printf("tri de 5\n");
-// 	else
-// 		printf("big_sort\n");
-// }
 
 //////////////////////////////////////////////////////////////
 ///////////////////////ON TRIE LA/////////////////////////////
@@ -569,9 +604,9 @@ int	main(int argc, char **argv)
 	printf("\n");
 	
 
-	// ft_big_sort(&list_a, &list_b);
 	// printf("finis\n");
 	ft_replace(&list_a);
+	ft_big_sort(&list_a, &list_b);
 	// ft_push(&list_a, &list_b);
 	// ft_rotate(list_a);
 
@@ -588,6 +623,7 @@ int	main(int argc, char **argv)
 	printf("STACK B\n");
 	ft_lstiter(list_b, ft_print);
 	printf("\n");
+	ft_exit(list_a, list_b, 0);
 	// ft_push(&list_a, &list_b);
 	// printf("/////////////////////////\n");
 	// printf("/////////////////////////\n");
