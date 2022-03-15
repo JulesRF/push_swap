@@ -6,7 +6,7 @@
 /*   By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 14:42:32 by jroux-fo          #+#    #+#             */
-/*   Updated: 2022/03/14 18:33:32 by jroux-fo         ###   ########.fr       */
+/*   Updated: 2022/03/15 15:00:18 by jroux-fo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,16 @@ typedef struct s_list
 char		**ft_split(char const *s, char c);
 
 //	ft_atoi.c
-int			ft_strlen(const char *s);
 int			ft_whitespaces(const char *str);
 int			ft_strcmp(const char *s1, char *s2);
-int			ft_check(const char *nptr);
-int			ft_atoi(const char *nptr);
+void		ft_exit_atoi(char **dest, int argc);
+int			ft_check(const char *nptr, char **dest, int argc);
+int			ft_atoi(const char *nptr, char **dest, int argc);
 
 //	ft_error.c
 void		ft_isdigit(char *str);
 void		ft_isdigitandspace(char *str);
-void		ft_same_digit2(char **argv, int i, int j);
+void		ft_same_digit2(char **argv, char **dest, int i, int j);
 void		ft_same_digit1(int argc, char **argv);
 void		ft_error(int argc, char **argv);
 
@@ -61,6 +61,7 @@ void		ft_replace2(t_list **list, long int *src, int size);
 void		ft_replace(t_list **list_a);
 
 //	ft_operation.c
+int			ft_strlen(const char *s);
 void		ft_swap(t_list *list, char wich);
 void		ft_push(t_list **send, t_list **receive, char wich);
 void		ft_reverse_rotate(t_list **list);

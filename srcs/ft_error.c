@@ -6,7 +6,7 @@
 /*   By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 17:29:48 by jroux-fo          #+#    #+#             */
-/*   Updated: 2022/03/14 18:32:19 by jroux-fo         ###   ########.fr       */
+/*   Updated: 2022/03/15 15:09:46 by jroux-fo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ void	ft_isdigit(char *str)
 void	ft_isdigitandspace(char *str)
 {
 	int	i;
+	int	nb;
 
+	nb = 0;
 	i = 0;
 	while (str[i])
 	{
@@ -46,29 +48,35 @@ void	ft_isdigitandspace(char *str)
 				exit(1);
 			}
 		}
+		else
+			nb++;
 		i++;
+	}
+	if (nb == 0)
+	{
+		ft_putstr("ERROR\n");
+		exit(1);
 	}
 }
 
-void	ft_same_digit2(char **argv, int i, int j)
+void	ft_same_digit2(char **argv, char **dest, int i, int j)
 {
-	char	**dest;
-
 	dest = ft_split(argv[1], ' ');
 	while (dest[i] != 0)
 	{
 		j = 0;
-		if (ft_atoi(dest[i]) > 2147483647)
+		if (ft_atoi(dest[i], dest, 2) > 2147483647)
 		{
-			ft_putstr("Errorsalut\n");
+			ft_putstr("Errorsalut2\n");
 			ft_free_split(dest);
 			exit(1);
 		}
 		while (dest[j] != 0)
 		{
-			if (ft_atoi(dest[i]) == ft_atoi(dest[j]) && i != j)
+			if (ft_atoi(dest[i], dest, 2) == ft_atoi(dest[j], dest, 2)
+				&& i != j)
 			{
-				ft_putstr("Errorsalut\n");
+				ft_putstr("Errorsalut3\n");
 				ft_free_split(dest);
 				exit(1);
 			}
@@ -90,9 +98,10 @@ void	ft_same_digit1(int argc, char **argv)
 		j = 1;
 		while (j < argc)
 		{
-			if (ft_atoi(argv[i]) == ft_atoi(argv[j]) && i != j)
+			if (ft_atoi(argv[i], argv, 1) == ft_atoi(argv[j], argv, 1)
+				&& i != j)
 			{
-				ft_putstr("Errorsalut\n");
+				ft_putstr("Errorsalut1\n");
 				exit(1);
 			}
 			j++;
@@ -118,13 +127,13 @@ void	ft_error(int argc, char **argv)
 		else
 		{
 			ft_isdigit(argv[i]);
-			if (ft_atoi(argv[i]) > 2147483647)
+			if (ft_atoi(argv[i], argv, 1) > 2147483647)
 				exit(1);
 		}
 		i++;
 	}
 	if (argc == 2)
-		ft_same_digit2(argv, 0, 0);
+		ft_same_digit2(argv, NULL, 0, 0);
 	else
 		ft_same_digit1(argc, argv);
 }

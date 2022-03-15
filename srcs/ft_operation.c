@@ -6,11 +6,21 @@
 /*   By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 17:47:34 by jroux-fo          #+#    #+#             */
-/*   Updated: 2022/03/14 17:48:32 by jroux-fo         ###   ########.fr       */
+/*   Updated: 2022/03/15 14:44:19 by jroux-fo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+int	ft_strlen(const char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
 
 void	ft_swap(t_list *list, char wich)
 {
@@ -46,9 +56,9 @@ void	ft_push(t_list **send, t_list **receive, char wich)
 	temp->next = *(receive);
 	*(receive) = temp;
 	if (wich == 'a')
-		ft_putstr("pa\n");
-	else
 		ft_putstr("pb\n");
+	else
+		ft_putstr("pa\n");
 }
 
 void	ft_reverse_rotate(t_list **list)

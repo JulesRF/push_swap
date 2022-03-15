@@ -6,7 +6,7 @@
 /*   By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 18:17:13 by jroux-fo          #+#    #+#             */
-/*   Updated: 2022/03/14 18:23:38 by jroux-fo         ###   ########.fr       */
+/*   Updated: 2022/03/15 14:46:30 by jroux-fo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,20 +55,20 @@ void	ft_init_list(t_list **list, int argc, char **argv)
 	if (argc == 1)
 	{
 		dest = ft_split(argv[1], ' ');
-		*list = ft_lstnew(ft_atoi(dest[0]));
+		*list = ft_lstnew(ft_atoi(dest[0], dest, 0));
 		while (dest[i] != 0)
 		{
-			ft_lstadd_back(list, ft_lstnew(ft_atoi(dest[i])));
+			ft_lstadd_back(list, ft_lstnew(ft_atoi(dest[i], dest, 0)));
 			i++;
 		}
 		ft_free_split(dest);
 		return ;
 	}
 	i++;
-	*list = ft_lstnew(ft_atoi(argv[1]));
+	*list = ft_lstnew(ft_atoi(argv[1], argv, 0));
 	while (argv[i])
 	{
-		ft_lstadd_back(list, ft_lstnew(ft_atoi(argv[i])));
+		ft_lstadd_back(list, ft_lstnew(ft_atoi(argv[i], argv, 0)));
 		i++;
 	}
 }

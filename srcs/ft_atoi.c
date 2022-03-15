@@ -6,29 +6,25 @@
 /*   By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:04:28 by jroux-fo          #+#    #+#             */
-/*   Updated: 2022/03/14 17:14:28 by jroux-fo         ###   ########.fr       */
+/*   Updated: 2022/03/15 14:57:22 by jroux-fo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	ft_strlen(const char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
 int	ft_whitespaces(const char *str)
 {
 	int	i;
+	int	j;
 
+	j = 0;
 	i = 0;
 	while (str[i] == ' ' || (str[i] <= 13 && str[i] >= 9))
 		i++;
+	while (str[i + j] == '-' || str[i + j] == '+')
+		j++;
+	if (j > 1)
+		return (-1);
 	return (i);
 }
 
@@ -46,29 +42,43 @@ int	ft_strcmp(const char *s1, char *s2)
 	return (0);
 }
 
-int	ft_check(const char *nptr)
+void	ft_exit_atoi(char **dest, int argc)
+{
+	if (argc == 2)
+	{
+		ft_free_split(dest);
+		ft_putstr("Error\n");
+		exit(1);
+	}
+	ft_putstr("Error\n");
+	exit(1);
+}
+
+int	ft_check(const char *nptr, char **dest, int argc)
 {
 	if (ft_strcmp(nptr, "2147483647") > 0
 		&& ft_strlen (nptr) >= ft_strlen("2147483647"))
-		return (-1);
+		ft_exit_atoi(dest, argc);
 	else if (ft_strcmp(nptr, "-2147483648") > 0
 		&& ft_strlen (nptr) >= ft_strlen("-2147483648"))
-		return (0);
+		ft_exit_atoi(dest, argc);
+	else if (ft_strcmp(nptr, "2147483647") == 0)
+		return (2147483647);
 	return (2);
 }
 
-int	ft_atoi(const char *nptr)
+int	ft_atoi(const char *nptr, char **dest, int argc)
 {
 	int	res;
 	int	i;
 	int	moins;
 
-	if (ft_strcmp(nptr, "2147483647") == 0)
-		return (2147483647);
-	if (ft_check(nptr) != 2)
-		return (ft_check(nptr));
+	if (ft_check(nptr, dest, argc) != 2)
+		return (ft_check(nptr, dest, argc));
 	res = 0;
 	i = ft_whitespaces(nptr);
+	if (i == -1)
+		ft_exit_atoi(dest, argc);
 	moins = 0;
 	if (nptr[i] == '-' || nptr[i] == '+')
 	{
