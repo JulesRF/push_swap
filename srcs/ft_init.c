@@ -6,7 +6,7 @@
 /*   By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 18:17:13 by jroux-fo          #+#    #+#             */
-/*   Updated: 2022/03/15 14:46:30 by jroux-fo         ###   ########.fr       */
+/*   Updated: 2022/03/18 15:16:19 by jroux-fo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 void	ft_is_sorted(t_list **list, t_list *temp)
 {
 	if (temp->next == NULL)
-		ft_exit(list, "Il n'y a qu'un seul élément\n", 0);
+		ft_exit(list, "", 0);
 	if (temp->next->next == NULL)
 	{
 		if (temp->value <= temp->next->value)
-			ft_exit(list, "gg tout est trié\n", 0);
+			ft_exit(list, "", 0);
 		return ;
 	}
 	while (temp->next->next)
@@ -30,7 +30,7 @@ void	ft_is_sorted(t_list **list, t_list *temp)
 	}
 	if (temp->next->value < temp->value)
 		return ;
-	ft_exit(list, "gg tout est trié\n", 0);
+	ft_exit(list, "", 0);
 }
 
 int	ft_is_sorted2(t_list *list)

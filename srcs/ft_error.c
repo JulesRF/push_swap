@@ -6,7 +6,7 @@
 /*   By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 17:29:48 by jroux-fo          #+#    #+#             */
-/*   Updated: 2022/03/15 15:09:46 by jroux-fo         ###   ########.fr       */
+/*   Updated: 2022/03/18 15:14:32 by jroux-fo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	ft_isdigitandspace(char *str)
 	}
 	if (nb == 0)
 	{
-		ft_putstr("ERROR\n");
+		ft_putstr("Error\n");
 		exit(1);
 	}
 }
@@ -67,7 +67,7 @@ void	ft_same_digit2(char **argv, char **dest, int i, int j)
 		j = 0;
 		if (ft_atoi(dest[i], dest, 2) > 2147483647)
 		{
-			ft_putstr("Errorsalut2\n");
+			ft_putstr("Error\n");
 			ft_free_split(dest);
 			exit(1);
 		}
@@ -76,7 +76,7 @@ void	ft_same_digit2(char **argv, char **dest, int i, int j)
 			if (ft_atoi(dest[i], dest, 2) == ft_atoi(dest[j], dest, 2)
 				&& i != j)
 			{
-				ft_putstr("Errorsalut3\n");
+				ft_putstr("Error\n");
 				ft_free_split(dest);
 				exit(1);
 			}
@@ -101,7 +101,7 @@ void	ft_same_digit1(int argc, char **argv)
 			if (ft_atoi(argv[i], argv, 1) == ft_atoi(argv[j], argv, 1)
 				&& i != j)
 			{
-				ft_putstr("Errorsalut1\n");
+				ft_putstr("Error\n");
 				exit(1);
 			}
 			j++;
@@ -116,10 +116,7 @@ void	ft_error(int argc, char **argv)
 
 	i = 1;
 	if (argc == 1)
-	{
-		ft_putstr("Error\n");
-		exit(1);
-	}
+		exit(0);
 	while (i < argc)
 	{
 		if (argc == 2)

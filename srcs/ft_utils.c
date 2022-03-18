@@ -6,7 +6,7 @@
 /*   By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 18:13:02 by jroux-fo          #+#    #+#             */
-/*   Updated: 2022/03/14 18:17:50 by jroux-fo         ###   ########.fr       */
+/*   Updated: 2022/03/18 15:15:44 by jroux-fo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ void	ft_lstclear(t_list **lst)
 
 void	ft_exit(t_list **list, char *text, int end)
 {
-	ft_putstr(text);
+	if (text)
+		ft_putstr(text);
 	ft_lstclear(list);
 	exit(end);
 }

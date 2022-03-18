@@ -6,7 +6,7 @@
 /*   By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 17:42:02 by jroux-fo          #+#    #+#             */
-/*   Updated: 2022/03/14 18:25:02 by jroux-fo         ###   ########.fr       */
+/*   Updated: 2022/03/18 15:44:06 by jroux-fo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,29 @@
 void	ft_sort_3(t_list *list_a, t_list *list_b)
 {
 	(void)list_b;
-	while (ft_is_sorted2(list_a) != 0)
+	if (list_a->value > list_a->next->value && list_a->next->value < list_a
+		->next->next->value && list_a->value < list_a->next->next->value)
+		ft_swap(list_a, 'a');
+	if (list_a->value > list_a->next->value && list_a->next->value < list_a
+		->next->next->value && list_a->value > list_a->next->next->value)
+		ft_rotate(list_a, 'a');
+	if (list_a->value > list_a->next->value && list_a->next->value > list_a
+		->next->next->value && list_a->value > list_a->next->next->value)
 	{
-		if (list_a->value > list_a->next->value)
-			ft_rotate(list_a, 'a');
-		if (list_a->next->value > list_a->next->next->value)
-			ft_swap(list_a, 'a');
+		ft_rotate(list_a, 'a');
+		ft_swap(list_a, 'a');
+	}
+	if (list_a->value < list_a->next->value && list_a->next->value > list_a
+		->next->next->value && list_a->value < list_a->next->next->value)
+	{
+		ft_swap(list_a, 'a');
+		ft_rotate(list_a, 'a');
+	}
+	if (list_a->value < list_a->next->value && list_a->next->value > list_a
+		->next->next->value && list_a->value > list_a->next->next->value)
+	{
+		ft_rotate(list_a, 'a');
+		ft_rotate(list_a, 'a');
 	}
 }
 
@@ -45,7 +62,6 @@ void	ft_small_sort(t_list **list_a, t_list **list_b, int size)
 
 	temp_a = *list_a;
 	temp_b = *list_b;
-	(void)size;
 	while (ft_lstsize(temp_a) > 3)
 	{
 		while (ft_smallest(temp_a) != temp_a->value)
@@ -54,7 +70,8 @@ void	ft_small_sort(t_list **list_a, t_list **list_b, int size)
 	}
 	ft_sort_3(temp_a, temp_b);
 	ft_push(&temp_b, &temp_a, 'b');
-	ft_push(&temp_b, &temp_a, 'b');
+	if (size == 5)
+		ft_push(&temp_b, &temp_a, 'b');
 }
 
 void	ft_big_sort(t_list **list_a, t_list **list_b, int size)

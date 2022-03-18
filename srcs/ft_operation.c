@@ -6,7 +6,7 @@
 /*   By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 17:47:34 by jroux-fo          #+#    #+#             */
-/*   Updated: 2022/03/15 14:44:19 by jroux-fo         ###   ########.fr       */
+/*   Updated: 2022/03/18 15:18:54 by jroux-fo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ void	ft_swap(t_list *list, char wich)
 		ft_putstr("Error\n");
 		return ;
 	}
-	while (list->next->next)
-		list = list->next;
 	temp = list->value;
 	list->value = list->next->value;
 	list->next->value = temp;
@@ -49,7 +47,7 @@ void	ft_push(t_list **send, t_list **receive, char wich)
 	temp = *send;
 	if (temp == NULL)
 	{
-		ft_putstr("Error\n");
+		ft_putstr("Error1000\n");
 		return ;
 	}
 	*send = (*send)->next;
