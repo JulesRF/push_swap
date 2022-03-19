@@ -6,7 +6,7 @@
 /*   By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 17:42:02 by jroux-fo          #+#    #+#             */
-/*   Updated: 2022/03/18 15:44:06 by jroux-fo         ###   ########.fr       */
+/*   Updated: 2022/03/19 18:20:48 by jroux-fo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,24 @@ void	ft_small_sort(t_list **list_a, t_list **list_b, int size)
 {
 	t_list	*temp_a;
 	t_list	*temp_b;
+	int		i;
 
 	temp_a = *list_a;
 	temp_b = *list_b;
+	i = 0;
 	while (ft_lstsize(temp_a) > 3)
 	{
-		while (ft_smallest(temp_a) != temp_a->value)
+		if (ft_smallest(temp_a) == temp_a->value && i < ft_lstsize(temp_a) / 2)
+		{
 			ft_rotate(temp_a, 'a');
-		ft_push(&temp_a, &temp_b, 'a');
+			ft_push(&temp_a, &temp_b, 'a');
+		}
+		else
+		{
+			ft_reverse_rotate(&temp_a, 'a');
+			ft_push(&temp_a, &temp_b, 'a');
+		}
+		i++;
 	}
 	ft_sort_3(temp_a, temp_b);
 	ft_push(&temp_b, &temp_a, 'b');

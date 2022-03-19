@@ -6,7 +6,7 @@
 /*   By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 17:47:34 by jroux-fo          #+#    #+#             */
-/*   Updated: 2022/03/18 15:18:54 by jroux-fo         ###   ########.fr       */
+/*   Updated: 2022/03/19 18:20:09 by jroux-fo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	ft_push(t_list **send, t_list **receive, char wich)
 		ft_putstr("pa\n");
 }
 
-void	ft_reverse_rotate(t_list **list)
+void	ft_reverse_rotate(t_list **list, char wich)
 {
 	t_list	*temp;
 	t_list	*last;
@@ -73,6 +73,10 @@ void	ft_reverse_rotate(t_list **list)
 	temp->next = NULL;
 	last->next = *list;
 	(*list) = last;
+	if (wich == 'a')
+		ft_putstr("rra\n");
+	else
+		ft_putstr("rrb\n");
 }
 
 void	ft_rotate(t_list *list, char wich)

@@ -6,7 +6,7 @@
 /*   By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 14:42:32 by jroux-fo          #+#    #+#             */
-/*   Updated: 2022/03/15 15:00:18 by jroux-fo         ###   ########.fr       */
+/*   Updated: 2022/03/19 18:20:27 by jroux-fo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void		ft_replace(t_list **list_a);
 int			ft_strlen(const char *s);
 void		ft_swap(t_list *list, char wich);
 void		ft_push(t_list **send, t_list **receive, char wich);
-void		ft_reverse_rotate(t_list **list);
+void		ft_reverse_rotate(t_list **list, char wich);
 void		ft_rotate(t_list *list, char wich);
 
 //	ft_operation2.c

@@ -6,7 +6,7 @@
 /*   By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 18:10:17 by jroux-fo          #+#    #+#             */
-/*   Updated: 2022/03/14 18:17:54 by jroux-fo         ###   ########.fr       */
+/*   Updated: 2022/03/19 18:21:30 by jroux-fo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,6 @@ void	ft_rrotate(t_list *list_a, t_list *list_b)
 
 void	ft_rreverse_rotate(t_list **list_a, t_list **list_b)
 {
-	ft_reverse_rotate(list_a);
-	ft_reverse_rotate(list_b);
+	ft_reverse_rotate(list_a, 'a');
+	ft_reverse_rotate(list_b, 'b');
 }
