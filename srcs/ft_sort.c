@@ -6,7 +6,7 @@
 /*   By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 17:42:02 by jroux-fo          #+#    #+#             */
-/*   Updated: 2022/03/19 18:20:48 by jroux-fo         ###   ########.fr       */
+/*   Updated: 2022/03/19 19:14:38 by jroux-fo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,24 +59,14 @@ void	ft_small_sort(t_list **list_a, t_list **list_b, int size)
 {
 	t_list	*temp_a;
 	t_list	*temp_b;
-	int		i;
 
 	temp_a = *list_a;
 	temp_b = *list_b;
-	i = 0;
 	while (ft_lstsize(temp_a) > 3)
 	{
-		if (ft_smallest(temp_a) == temp_a->value && i < ft_lstsize(temp_a) / 2)
-		{
+		while (ft_smallest(temp_a) != temp_a->value)
 			ft_rotate(temp_a, 'a');
-			ft_push(&temp_a, &temp_b, 'a');
-		}
-		else
-		{
-			ft_reverse_rotate(&temp_a, 'a');
-			ft_push(&temp_a, &temp_b, 'a');
-		}
-		i++;
+		ft_push(&temp_a, &temp_b, 'a');
 	}
 	ft_sort_3(temp_a, temp_b);
 	ft_push(&temp_b, &temp_a, 'b');
@@ -119,7 +109,11 @@ void	ft_sort(t_list **list_a, t_list **list_b)
 	else if (ft_lstsize(*list_a) == 3)
 		ft_sort_3(*list_a, *list_b);
 	else if (ft_lstsize(*list_a) <= 5)
+	{
+		if (ft_spe_5(list_a, list_b, ft_lstsize(*list_a)) == 1)
+			return ;
 		ft_small_sort(list_a, list_b, ft_lstsize(*list_a));
+	}
 	else
 		ft_big_sort(list_a, list_b, ft_lstsize(*list_a));
 }

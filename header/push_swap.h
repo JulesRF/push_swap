@@ -6,7 +6,7 @@
 /*   By: jroux-fo <jroux-fo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 14:42:32 by jroux-fo          #+#    #+#             */
-/*   Updated: 2022/03/19 18:20:27 by jroux-fo         ###   ########.fr       */
+/*   Updated: 2022/03/19 19:16:46 by jroux-fo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ void		ft_reverse_rotate(t_list **list, char wich);
 void		ft_rotate(t_list *list, char wich);
 
 //	ft_operation2.c
+void		ft_spe_52(t_list *temp_a, t_list *temp_b);
+int			ft_spe_5(t_list **list_a, t_list **list_b, int size);
 void		ft_sswap(t_list *list_a, t_list *list_b);
 void		ft_rrotate(t_list *list_a, t_list *list_b);
 void		ft_rreverse_rotate(t_list **list_a, t_list **list_b);
